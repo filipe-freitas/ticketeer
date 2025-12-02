@@ -248,3 +248,21 @@ Before submitting code for review, ensure:
 - [ ] Async methods use `Async` suffix
 - [ ] Dependency injection used (no `new` for services)
 - [ ] Clean Architecture layers respected
+
+---
+
+## 11. Pull Request Guidelines
+
+### Template
+We use a standard Pull Request template. Please ensure you fill out all relevant sections:
+- **Summary**: What does this PR do?
+- **Changes**: Bullet points of technical changes.
+- **Related Issues**: Link to the ticket (e.g., `Closes #123`).
+- **Testing**: How did you verify your changes?
+
+### Expectations
+- **One PR per Feature/Fix**: Avoid massive PRs that touch everything.
+- **Self-Review**: Review your own code before assigning reviewers.
+- **CI Green**: Ensure the build and tests pass before requesting review.
+- **Screenshots**: For UI/API changes, provide proof of work (screenshots or response snippets).
+
