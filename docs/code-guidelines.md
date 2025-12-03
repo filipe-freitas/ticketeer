@@ -266,3 +266,32 @@ We use a standard Pull Request template. Please ensure you fill out all relevant
 - **CI Green**: Ensure the build and tests pass before requesting review.
 - **Screenshots**: For UI/API changes, provide proof of work (screenshots or response snippets).
 
+---
+
+## 12. AI Code Review Standard
+
+This section defines the strict format for AI-generated code reviews (specifically Antigravity/Gemini).
+
+### Header Format
+Must always start with:
+`🤖 **Code Review by Antigravity ({LLM_NAME})**`
+
+> **Note**: Replace `{LLM_NAME}` with the specific model used (e.g., Gemini 3 Pro Low, GPT-4o, etc).
+
+### Verdict Format
+Must include a clear decision section:
+`## 🏁 Verdict: [Approved | Approved with Suggestions | Changes Requested] 🟢/🟡/🔴`
+
+### Content Rules
+1. **Strictness**: Only list **Required Changes** (violations, bugs, missing docs).
+2. **No Fluff**: Do **NOT** list strengths, compliments, or "what was done right".
+3. **Format**: Use bullet points with clear **Violation** and **Action**.
+
+**Example**:
+```markdown
+### ⚠️ Required Changes
+
+- **Title Violation**: The PR title "Add stuff" does not follow Conventional Commits.
+  - **Action**: Rename to `feat: add stuff`.
+```
+
