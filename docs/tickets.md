@@ -181,7 +181,7 @@ Add Aspire AppHost project and configure PostgreSQL container.
 - [ ] Project `Ticketeer.AppHost` created
 - [ ] PostgreSQL container configured via Aspire
 - [ ] Aspire dashboard accessible at `http://localhost:15888`
-- [ ] Postgres accessible by API
+- [ ] PostgreSQL accessible by API
 
 ### Technical Notes
 - Aspire requires .NET 10 SDK

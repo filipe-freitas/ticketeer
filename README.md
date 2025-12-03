@@ -8,7 +8,7 @@
 
 Ticketeer is a **learning-focused** production-grade API that manages movies, cinemas, halls, sessions, and ticket sales. The project serves as a practical laboratory to apply enterprise-level .NET patterns and technologies.
 
-**Key Focus**: Apply "Must Know" technologies from the [.NET Roadmap](dotnet-roadmap.md) in a real-world scenario.
+**Key Focus**: Apply "Must Know" technologies from the [.NET Roadmap](https://roadmap.sh/r/net-developer-roadmap-1hryy) in a real-world scenario.
 
 ---
 

@@ -27,18 +27,18 @@
 ## 1. Naming Conventions
 
 ### C# Conventions
-- **Classes**: `PascalCase` (ex: `MovieService`, `TicketeerDbContext`)
-- **Interfaces**: Prefixo `I` + `PascalCase` (ex: `IMovieRepository`, `IUnitOfWork`)
-- **Methods**: `PascalCase` (ex: `PurchaseTicketAsync`, `CanPurchaseSeat`)
-- **Properties**: `PascalCase` (ex: `Title`, `ReleaseDate`)
-- **Private Fields**: `_camelCase` (ex: `_dbContext`, `_logger`)
-- **Local Variables**: `camelCase` (ex: `movieId`, `seatNumber`)
-- **Constants**: `UPPER_SNAKE_CASE` (ex: `MAX_SEATS_PER_ROW`, `DEFAULT_TIMEOUT`)
+- **Classes**: `PascalCase` (e.g. `MovieService`, `TicketeerDbContext`)
+- **Interfaces**: Prefix with `I` + `PascalCase` (e.g. `IMovieRepository`, `IUnitOfWork`)
+- **Methods**: `PascalCase` (e.g. `PurchaseTicketAsync`, `CanPurchaseSeat`)
+- **Properties**: `PascalCase` (e.g. `Title`, `ReleaseDate`)
+- **Private Fields**: `_camelCase` (e.g. `_dbContext`, `_logger`)
+- **Local Variables**: `camelCase` (e.g. `movieId`, `seatNumber`)
+- **Constants**: `UPPER_SNAKE_CASE` (e.g. `MAX_SEATS_PER_ROW`, `DEFAULT_TIMEOUT`)
 
 ### File Naming
-- **Classes**: Match class name (ex: `MovieService.cs`)
-- **Interfaces**: Match interface name (ex: `IMovieRepository.cs`)
-- **Tests**: `{ClassName}Tests.cs` (ex: `MovieServiceTests.cs`)
+- **Classes**: Match class name (e.g. `MovieService.cs`)
+- **Interfaces**: Match interface name (e.g. `IMovieRepository.cs`)
+- **Tests**: `{ClassName}Tests.cs` (e.g. `MovieServiceTests.cs`)
 
 ---
 
@@ -132,7 +132,7 @@ exception.ShouldBeOfType<ValidationException>();
 
 ### Async/Await
 - All I/O operations must be async
-- Suffix async methods with `Async` (ex: `PurchaseTicketAsync`)
+- Suffix async methods with `Async` (e.g. `PurchaseTicketAsync`)
 - Always use `ConfigureAwait(false)` in library code (not needed in ASP.NET Core)
 
 ### Null Handling
@@ -170,7 +170,7 @@ public async Task<TicketResponse> PurchaseTicketAsync(PurchaseTicketRequest requ
 
 ### Exceptions
 - Use specific exception types (avoid generic `Exception`)
-- Create custom exceptions when needed (ex: `SeatAlreadyOccupiedException`)
+- Create custom exceptions when needed (e.g. `SeatAlreadyOccupiedException`)
 - Never swallow exceptions silently
 
 ### Validation
