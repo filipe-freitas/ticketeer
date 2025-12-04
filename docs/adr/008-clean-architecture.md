@@ -35,7 +35,21 @@ The codebase will be organized into four concentric layers:
 │  Domain                             │  ← Entities, Value Objects, Business Rules
 └─────────────────────────────────────┘
 ```
+### Visual Diagram
 
+```mermaid
+flowchart TB
+    API --> App
+    API --> Infra
+    API --> Domain
+    Infra --> App
+    Infra --> Domain
+    Tests --> API
+    Tests --> App
+    Tests --> Domain
+    Tests --> Infra
+    App --> Domain
+```
 **Dependency Rule**: Inner layers never depend on outer layers. Dependencies point inward.
 
 ## Alternatives Considered and Rejected

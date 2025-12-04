@@ -106,6 +106,40 @@ Ticketeer is a **learning-focused** production-grade API that manages movies, ci
 
 ---
 
+## 🚦 Getting Started
+
+### Prerequisites
+- **.NET 10 SDK**
+- **Docker Desktop** (for Aspire & Containers)
+- **IDE**: Rider, Visual Studio 2022, or VS Code
+
+### Running the Project
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/filipefreitas/ticketeer.git
+   cd ticketeer
+   ```
+
+2. **Build the Solution**
+   ```bash
+   dotnet build
+   ```
+
+3. **Run Tests**
+   ```bash
+   dotnet test
+   ```
+
+4. **Run with Aspire (Future)**
+   Once configured (Ticket #002), you will run:
+   ```bash
+   dotnet run --project src/Ticketeer.AppHost
+   ```
+   This will spin up the API, Database, and Dashboard.
+
+---
+
 ## 🚀 Quick Start (For New Conversations)
 
 When starting a new chat for **code review or questions**, mention:
