@@ -1,8 +1,8 @@
 # Build artefacts
-/bin/
-/obj/
-/publish/
-/out/
+bin/
+obj/
+publish/
+out/
 
 # IDE / editor artefacts
 /.vs/
