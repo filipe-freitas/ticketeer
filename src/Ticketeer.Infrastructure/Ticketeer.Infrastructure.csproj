@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <!-- Implements Interfaces defined in Application -->
+    <ProjectReference Include="..\Ticketeer.Application\Ticketeer.Application.csproj" />
+    <!-- Maps Domain Entities to Database -->
+    <ProjectReference Include="..\Ticketeer.Domain\Ticketeer.Domain.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
