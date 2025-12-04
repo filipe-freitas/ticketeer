@@ -47,6 +47,7 @@ flowchart TB
     Tests --> API
     Tests --> App
     Tests --> Domain
+    Tests --> Infra
     App --> Domain
 ```
 **Dependency Rule**: Inner layers never depend on outer layers. Dependencies point inward.
