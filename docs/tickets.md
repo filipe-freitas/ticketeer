@@ -4,202 +4,173 @@
 
 ---
 
-## 🎫 Ticket #010: Configure Unit Testing
-**Status**: 🔴 To Do
-**Iteration**: 1
-**Type**: Setup
+## Iteração 9: Real-Time (Future)
+> *To be refined*
 
-### Description
-Add testing packages to `Ticketeer.Tests` project and validate that the test pipeline works.
+**Objective**: SignalR for live seat map
 
-### Acceptance Criteria
-- [ ] Packages `xUnit`, `NSubstitute`, `Shouldly`, `Bogus` added
-- [ ] Command `dotnet test` executes without errors
-- [ ] CI pipeline runs tests automatically
-
-### Technical Notes
-- Check latest package versions on NuGet
-- Review ADR 005 to understand NSubstitute choice
+**Planned Tickets**:
+- Implement SignalR + SeatHub
+- E2E tests with Playwright (2 synchronized browsers)
 
 ---
 
-## 🎫 Ticket #009: Create Seat Value Object
-**Status**: 🔴 To Do
-**Iteration**: 1
-**Type**: Feature + Test
+## Iteração 8: Background Jobs
+> *To be refined*
 
-### Description
-Implement the `Seat` Value Object with equality tests.
+**Objective**: Scheduled tasks
 
-### Acceptance Criteria
-- [ ] Test `SeatValueObjectTests.cs` created
-- [ ] Test validates equality of two seats with same Row and Number
-- [ ] Test validates inequality of different seats
-- [ ] Value Object `Seat` implemented in Domain
-- [ ] All tests pass
-
-### Technical Notes
-- Value Objects must override `Equals()` and `GetHashCode()`
-- Research Value Object pattern in DDD
+**Planned Tickets**:
+- Implement expired reservation cleanup (BackgroundService)
 
 ---
 
-## 🎫 Ticket #008: Implement Session and Ticket with Availability Logic
-**Status**: 🔴 To Do
-**Iteration**: 1
-**Type**: Feature + Test
+## Iteração 7: Observability
+> *To be refined*
 
-### Description
-Create `Session` and `Ticket` entities with business rule to check seat availability.
+**Objective**: Structured logs + metrics
 
-### Acceptance Criteria
-- [ ] Test `SessionTests.cs` validates `CanPurchaseSeat()` with occupied seat returns false
-- [ ] Test validates `CanPurchaseSeat()` with available seat returns true
-- [ ] Entity `Session` created in Domain
-- [ ] Entity `Ticket` created in Domain
-- [ ] Method `CanPurchaseSeat(Seat)` implemented
-- [ ] All tests pass
-
-### Technical Notes
-- Business logic must be in Domain, not Application
-- Consult code-guidelines.md for naming conventions
+**Planned Tickets**:
+- Configure Serilog → Elasticsearch → Kibana
+- Configure OpenTelemetry → Prometheus → Grafana
+- Create metrics dashboard
 
 ---
 
-## 🎫 Ticket #007: Create Hall Entity with Tests
-**Status**: 🔴 To Do
-**Iteration**: 1
-**Type**: Feature + Test
+## Iteração 6: Search & Messaging
+> *To be refined*
 
-### Description
-Implement the `Hall` entity with total seats calculation.
+**Objective**: ElasticSearch + MassTransit/RabbitMQ
 
-### Acceptance Criteria
-- [ ] Test `HallTests.cs` created
-- [ ] Test validates `TotalSeats` calculation (RowCount * SeatsPerRow)
-- [ ] Entity `Hall` created in Domain with correct properties
-- [ ] All tests pass
-
-### Technical Notes
-- Follow naming conventions from code-guidelines.md
-- Properties: Id, CinemaId, Name, TotalSeats, RowCount, SeatsPerRow
+**Planned Tickets**:
+- Configure ElasticSearch + RabbitMQ via Aspire
+- Implement movie text search
+- Create MovieChangedEvent + Consumer
+- Configure Polly (retry + circuit breaker)
 
 ---
 
-## 🎫 Ticket #006: Create Movie Entity with Tests
-**Status**: 🔴 To Do
-**Iteration**: 1
-**Type**: Feature + Test
+## Iteração 5: Cache & Performance
+> *To be refined*
 
-### Description
-Implement the first domain entity (`Movie`) following TDD.
+**Objective**: Redis for heavy read endpoints
 
-### Acceptance Criteria
-- [ ] Test `MovieTests.cs` created in Tests project
-- [ ] Test validates Movie creation with valid data
-- [ ] Entity `Movie` created in Domain project
-- [ ] Properties: Id, Title, Description, Duration, ReleaseDate, Genre
-- [ ] All tests pass
-
-### Technical Notes
-- Follow AAA pattern (Arrange-Act-Assert) in tests
-- Use Shouldly for assertions (consult code-guidelines.md)
+**Planned Tickets**:
+- Configure Redis via Aspire
+- Implement Output Caching on /movies
+- Cache seat map (Redis Hash)
+- Cache invalidation on ticket purchase
 
 ---
 
-## 🎫 Ticket #005: Validate CI Pipeline
+## Iteração 4: Core Business - Ticket Sales
+> *To be refined*
+
+**Objective**: Ticket purchase with concurrency protection
+
+**Planned Tickets**:
+- Create Sessions CRUD
+- Implement ticket purchase (TicketService)
+- Add Concurrency Token for double-booking protection
+- Create Minimal API for /tickets (hot path)
+- Load tests with K6
+
+---
+
+## Iteração 3: API + Authentication
+> *To be refined*
+
+**Objective**: Functional endpoints with JWT
+
+**Planned Tickets**:
+- Configure ASP.NET Core Identity
+- Implement Register/Login with JWT
+- Configure Swagger with Bearer authentication
+- Create Movies CRUD (Controller) + FluentValidation
+- Implement optimized reads with Dapper
+
+---
+
+## Iteração 2: Infrastructure + Persistence
+> *To be refined*
+
+**Objective**: EF Core with PostgreSQL via Aspire
+
+**Planned Tickets**:
+- Configure .NET Aspire + PostgreSQL container
+- Create DbContext with EF Core
+- Configure Fluent API (FKs, indexes, constraints)
+- Create migrations and validate schema
+- Configure TestContainers for integration tests
+- Create Movie Repository + integration tests
+
+---
+
+## Iteração 1: Domain Layer (TDD)
+> *To be refined after Iteration 0 is complete*
+
+**Objective**: Domain entities tested without infrastructure dependencies
+
+**Planned Tickets**:
+- Configure test packages (xUnit, NSubstitute, Shouldly, Bogus)
+- Create .editorconfig for code formatting
+- Create Movie entity + tests
+- Create Cinema entity + tests
+- Create Hall entity + tests (seat calculation)
+- Create Seat Value Object + equality tests
+- Create Session and Ticket entities + availability logic
+
+---
+
+## Iteração 0: Fundação & DevOps
+
+### 🎫 Ticket #003: Validate CI Pipeline + Branch Protection
 **Status**: 🔴 To Do
-**Iteration**: 0
-**Type**: Test
+**Type**: Test / Setup
 
-### Description
-Push to GitHub and validate that the CI pipeline executes successfully.
+#### Description
+Push code to GitHub and validate that the CI pipeline executes successfully. Configure branch protection rules.
 
-### Acceptance Criteria
+#### Acceptance Criteria
 - [ ] Push performed to `main` branch
 - [ ] GitHub Actions workflow executes
 - [ ] Build passes (green)
-- [ ] Tests execute (even without tests yet)
+- [ ] Branch `main` protected (require PR + status check passing)
 
-### Technical Notes
+#### Technical Notes
 - Check GitHub Actions logs in case of failure
-- Workflow should be in `.github/workflows/ci.yml`
+- Branch protection configured in GitHub Settings → Branches
 
 ---
 
-## 🎫 Ticket #004: Configure Git and GitHub
-**Status**: 🔴 To Do
-**Iteration**: 0
+### 🎫 Ticket #002: Create GitHub Actions Workflow
+**Status**: 🟢 Done
 **Type**: Setup
 
-### Description
-Initialize local Git repository and connect to GitHub.
-
-### Acceptance Criteria
-- [ ] Git repository initialized (`git init`)
-- [ ] `.gitignore` for .NET created
-- [ ] Initial commit performed
-- [ ] Remote repository on GitHub configured
-- [ ] Initial push performed
-
-### Technical Notes
-- Use official .NET/Visual Studio `.gitignore` template
-- Follow commit message convention from code-guidelines.md
-
----
-
-## 🎫 Ticket #003: Create GitHub Actions Workflow
-**Status**: 🔴 To Do
-**Iteration**: 0
-**Type**: Setup
-
-### Description
+#### Description
 Create basic CI/CD workflow for automated build and tests.
 
-### Acceptance Criteria
-- [ ] File `.github/workflows/ci.yml` created
-- [ ] Workflow executes `dotnet build`
-- [ ] Workflow executes `dotnet test`
-- [ ] Workflow runs on push to `main` and on pull requests
+#### Acceptance Criteria
+- [X] File `.github/workflows/ci.yml` created
+- [X] Workflow executes `dotnet build`
+- [X] Workflow executes `dotnet test`
+- [X] Workflow runs on push to `main` and on pull requests
 
-### Technical Notes
-- Use action `actions/setup-dotnet@v4` with .NET 10
+#### Technical Notes
+- Use action `actions/setup-dotnet@v5` with .NET 10
 - Search for .NET workflow examples on GitHub Actions Marketplace
 
 ---
 
-## 🎫 Ticket #002: Configure .NET Aspire
-**Status**: 🔴 To Do
-**Iteration**: 0
-**Type**: Setup
-**Related ADR**: ADR 004 (Polyglot Persistence)
-
-### Description
-Add Aspire AppHost project and configure PostgreSQL container.
-
-### Acceptance Criteria
-- [ ] Project `Ticketeer.AppHost` created
-- [ ] PostgreSQL container configured via Aspire
-- [ ] Aspire dashboard accessible at `http://localhost:15888`
-- [ ] PostgreSQL accessible by API
-
-### Technical Notes
-- Aspire requires .NET 10 SDK
-- Consult official .NET Aspire documentation
-- Dashboard shows telemetry from all services
-
----
-
-## 🎫 Ticket #001: Create Solution and Projects
+### 🎫 Ticket #001: Create Solution and Projects
 **Status**: 🟢 Done
-**Iteration**: 0
 **Type**: Setup
 **Related ADR**: ADR 008 (Clean Architecture)
 
-### Description
+#### Description
 Create project structure following Clean Architecture with Domain, Application, Infrastructure, API, and Tests layers.
 
-### Acceptance Criteria
+#### Acceptance Criteria
 - [X] Solution `Ticketeer.sln` created
 - [X] Project `Ticketeer.Domain` (Class Library) created
 - [X] Project `Ticketeer.Application` (Class Library) created
@@ -209,7 +180,7 @@ Create project structure following Clean Architecture with Domain, Application, 
 - [X] Project references configured correctly
 - [X] Command `dotnet build` executes without errors
 
-### Technical Notes
+#### Technical Notes
 - Application should reference only Domain
 - Infrastructure should reference Application and Domain
 - API should reference all projects
@@ -217,4 +188,3 @@ Create project structure following Clean Architecture with Domain, Application, 
 - Consult ADR 008 to understand dependency rules
 
 ---
-

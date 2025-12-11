@@ -68,68 +68,81 @@ Aqui mapeamos cada funcionalidade aos itens obrigatórios do roadmap.
 ## Roadmap de Desenvolvimento Incremental (TDD)
 
 > **Nota**: Cada iteração segue o ciclo: **Escrever Teste → Implementar Feature → Testar → Refatorar**
+> 
+> Tickets detalhados disponíveis em [tickets.md](tickets.md)
 
 ---
 
-### Iteração 0: Fundação
-**Entregável**: Estrutura de projetos + CI/CD básico
+### Iteração 0: Fundação & DevOps
+**Entregável**: Estrutura de projetos + CI/CD básico + Branch Protection
 
 #### Setup Inicial
 1. Criar solution e projetos (Domain, Application, Infrastructure, API, Tests)
 2. Configurar referências entre projetos (Clean Architecture)
-3. Configurar .NET Aspire (AppHost + PostgreSQL container)
-4. Configurar Git/GitHub + `.gitignore`
 
-#### CI/CD Básico
-5. Criar `.github/workflows/ci.yml`:
+#### CI/CD
+3. Criar `.github/workflows/ci.yml`:
    - `dotnet build`
    - `dotnet test` (ainda sem testes, mas pipeline pronto)
-6. **Teste**: Push para GitHub → CI passa (build verde)
+4. **Validação**: Push para GitHub → CI passa (build verde)
+5. Configurar branch protection rules (require PR + status check)
 
 ---
 
-### Iteração 1: Domain + Testes de Unidade
-**Entregável**: Entidades de domínio testadas
+### Iteração 1: Domain Layer (TDD)
+**Entregável**: Entidades de domínio testadas sem dependência de infraestrutura
+
+#### Setup de Testes
+1. Adicionar `xUnit`, `NSubstitute`, `Shouldly`, `Bogus` ao projeto Tests
+2. Criar `.editorconfig` para padronização de código
 
 #### Domain Entities
-1. **Teste**: Criar `MovieTests.cs` (testa criação de Movie com dados válidos)
-2. **Implementação**: Criar entidade `Movie` (Id, Title, Description, Duration, ReleaseDate, Genre)
-3. **Teste**: Adicionar `HallTests.cs` (testa cálculo de assentos totais)
-4. **Implementação**: Criar `Hall` (Id, CinemaId, Name, TotalSeats, RowCount, SeatsPerRow)
-5. **Teste**: Criar `SessionTests.cs` (testa `CanPurchaseSeat()` com assento ocupado)
-6. **Implementação**: Criar `Session`, `Ticket` e lógica de disponibilidade
-7. **Teste**: Criar `SeatValueObjectTests.cs` (testa igualdade de Value Object)
-8. **Implementação**: Criar Value Object `Seat` (Row, Number)
+3. **Teste**: Criar `MovieTests.cs` (testa criação de Movie com dados válidos)
+4. **Implementação**: Criar entidade `Movie` (Id, Title, Description, Duration, ReleaseDate, Genre)
+5. **Teste**: Criar `CinemaTests.cs` (testa criação de Cinema)
+6. **Implementação**: Criar entidade `Cinema` (Id, Name, Address)
+7. **Teste**: Adicionar `HallTests.cs` (testa cálculo de assentos totais)
+8. **Implementação**: Criar `Hall` (Id, CinemaId, Name, TotalSeats, RowCount, SeatsPerRow)
 
-#### Configurar Testes
-9. Adicionar `xUnit`, `NSubstitute`, `Shouldly`, `Bogus` ao projeto Tests
-10. **Teste**: Rodar `dotnet test` → Todos os testes passam
+#### Value Objects
+9. **Teste**: Criar `SeatValueObjectTests.cs` (testa igualdade de Value Object)
+10. **Implementação**: Criar Value Object `Seat` (Row, Number)
+
+#### Core Business Logic
+11. **Teste**: Criar `SessionTests.cs` (testa `CanPurchaseSeat()` com assento ocupado)
+12. **Implementação**: Criar `Session`, `Ticket` e lógica de disponibilidade
+13. **Validação**: Rodar `dotnet test` → Todos os testes passam
 
 ---
 
-### Iteração 2: Infrastructure + Testes de Integração
+### Iteração 2: Infrastructure + Persistência
 **Entregável**: Banco de dados funcional com testes reais
 
-#### EF Core Setup
-1. **Teste**: Criar `MovieRepositoryTests.cs` (usa TestContainers + Postgres real)
-2. **Implementação**: 
-   - Criar `TicketeerDbContext` com DbSet<Movie>
-   - Implementar `MovieRepository` com EF Core
-   - Criar Migration `InitialCreate`
-3. **Teste**: Salvar Movie no banco → Recuperar → Validar dados
-4. **Implementação**: Adicionar DbSets restantes (Cinema, Hall, Session, Ticket)
-5. **Teste**: Criar `SessionRepositoryTests.cs` (testa relacionamentos Movie → Session → Hall)
-6. **Implementação**: Configurar Fluent API (FKs, índices, constraints)
+#### .NET Aspire Setup
+1. Criar projeto `Ticketeer.AppHost`
+2. Configurar PostgreSQL container via Aspire
+3. **Validação**: Aspire dashboard acessível em `http://localhost:15888`
 
-#### TestContainers Setup
-7. Adicionar `Testcontainers.PostgreSql` ao projeto Tests
-8. Criar `CustomWebApplicationFactory` (ADR 006)
-9. **Teste**: Rodar testes de integração → Postgres sobe/desce automaticamente
+#### EF Core Setup
+4. Criar `TicketeerDbContext` com DbSet para todas as entidades
+5. Configurar Fluent API (FKs, índices, constraints)
+6. Criar Migration `InitialCreate`
+7. **Validação**: Schema aplicado corretamente no PostgreSQL
+
+#### TestContainers
+8. Adicionar `Testcontainers.PostgreSql` ao projeto Tests
+9. Criar `CustomWebApplicationFactory` (ADR 006)
+
+#### Testes de Integração
+10. **Teste**: Criar `MovieRepositoryTests.cs` (usa TestContainers + Postgres real)
+11. **Implementação**: Implementar `MovieRepository` com EF Core
+12. **Teste**: Salvar Movie no banco → Recuperar → Validar dados
+13. **Validação**: Rodar testes de integração → Postgres sobe/desce automaticamente
 
 ---
 
-### Iteração 3: Autenticação + Testes E2E Básicos
-**Entregável**: Login/Register funcionando com testes
+### Iteração 3: API Básica + Autenticação
+**Entregável**: Endpoints funcionais com JWT
 
 #### ASP.NET Core Identity + JWT
 1. **Teste**: Criar `AuthenticationTests.cs` (POST /auth/register → retorna 201)
@@ -146,85 +159,86 @@ Aqui mapeamos cada funcionalidade aos itens obrigatórios do roadmap.
 7. Configurar Swagger para aceitar Bearer Token
 8. **Teste Manual**: Abrir Swagger → Fazer login → Usar token em endpoint protegido
 
----
-
-### Iteração 4: CRUD de Filmes + Validação
-**Entregável**: Gerenciamento de filmes com validação
-
-#### Application Layer (Movies)
-1. **Teste**: Criar `MovieServiceTests.cs` (mock de repository)
-2. **Implementação**: Criar `MovieService` (CRUD usando IMovieRepository)
-3. **Teste**: Validar `CreateMovieRequest` com título vazio → erro de validação
-4. **Implementação**: Adicionar FluentValidation (`CreateMovieRequestValidator`)
-
-#### API (Movies Controller)
-5. **Teste**: `POST /movies` com dados válidos → 201 Created
-6. **Implementação**: Criar `MoviesController` (CRUD administrativo)
-7. **Teste**: `GET /movies/{id}` → retorna filme correto
-8. **Teste**: `PUT /movies/{id}` → atualiza filme
-9. **Teste**: `DELETE /movies/{id}` → remove filme
+#### CRUD de Movies
+9. **Teste**: Criar `MovieServiceTests.cs` (mock de repository)
+10. **Implementação**: Criar `MovieService` (CRUD usando IMovieRepository)
+11. **Teste**: Validar `CreateMovieRequest` com título vazio → erro de validação
+12. **Implementação**: Adicionar FluentValidation (`CreateMovieRequestValidator`)
+13. **Teste**: `POST /movies` com dados válidos → 201 Created
+14. **Implementação**: Criar `MoviesController` (CRUD administrativo)
 
 #### Dapper (Read Model)
-10. **Teste**: `GET /movies` retorna lista otimizada (sem tracking do EF)
-11. **Implementação**: Criar `IQueryService` + query Dapper para listagem
+15. **Teste**: `GET /movies` retorna lista otimizada (sem tracking do EF)
+16. **Implementação**: Criar `IQueryService` + query Dapper para listagem
 
 ---
 
-### Iteração 5: Compra de Ingressos + Concorrência
-**Entregável**: Venda de ingressos com proteção contra double-booking
+### Iteração 4: Core Business - Venda de Ingressos
+**Entregável**: Compra de ingressos com proteção de concorrência
+
+#### Sessions CRUD
+1. **Teste**: Criar `SessionServiceTests.cs`
+2. **Implementação**: Criar `SessionService` e endpoints
 
 #### Ticket Purchase Logic
-1. **Teste**: Criar `TicketServiceTests.cs` (compra com assento disponível → sucesso)
-2. **Implementação**: Criar `TicketService.PurchaseAsync()`
-3. **Teste**: Compra com assento ocupado → erro
-4. **Implementação**: Adicionar validação de disponibilidade
-5. **Teste**: Duas compras simultâneas do mesmo assento → uma falha (Concurrency Token)
-6. **Implementação**: Adicionar `[ConcurrencyCheck]` em `Ticket.SeatNumber`
+3. **Teste**: Criar `TicketServiceTests.cs` (compra com assento disponível → sucesso)
+4. **Implementação**: Criar `TicketService.PurchaseAsync()`
+5. **Teste**: Compra com assento ocupado → erro
+6. **Implementação**: Adicionar validação de disponibilidade
+7. **Teste**: Duas compras simultâneas do mesmo assento → uma falha (Concurrency Token)
+8. **Implementação**: Adicionar `[ConcurrencyCheck]` em `Ticket.SeatNumber`
 
 #### Minimal API (Hot Path)
-7. **Teste**: `POST /tickets` com alta concorrência (100 requests simultâneos)
-8. **Implementação**: Criar Minimal API `POST /tickets`
-9. **Teste de Carga (K6)**: Simular 1000 usuários → validar sem double-booking
+9. **Teste**: `POST /tickets` com alta concorrência (100 requests simultâneos)
+10. **Implementação**: Criar Minimal API `POST /tickets`
+
+#### Testes de Carga
+11. **Teste de Carga (K6)**: Simular 1000 usuários → validar sem double-booking
 
 ---
 
-### Iteração 6: Redis Cache
-**Entregável**: Cache funcionando em endpoints de leitura
+### Iteração 5: Cache & Performance
+**Entregável**: Redis para endpoints de leitura pesados
+
+#### Redis Setup
+1. Configurar Redis via Aspire
+2. **Validação**: Redis acessível pelo API
 
 #### Output Caching
-1. **Teste**: `GET /movies` sem cache → latência X ms
-2. **Implementação**: Configurar Redis via Aspire + Output Caching
-3. **Teste**: `GET /movies` com cache → latência < X/10 ms
-4. **Teste**: Criar filme → cache invalida → GET retorna novo filme
+3. **Teste**: `GET /movies` sem cache → latência X ms
+4. **Implementação**: Configurar Output Caching com Redis
+5. **Teste**: `GET /movies` com cache → latência < X/10 ms
+6. **Teste**: Criar filme → cache invalida → GET retorna novo filme
 
 #### Cache Manual (Seat Map)
-5. **Teste**: `GET /sessions/{id}/seats` usa Redis Hash
-6. **Implementação**: Cachear mapa de assentos no Redis
-7. **Teste**: Comprar ingresso → cache atualiza → GET retorna assento ocupado
+7. **Teste**: `GET /sessions/{id}/seats` usa Redis Hash
+8. **Implementação**: Cachear mapa de assentos no Redis
+9. **Teste**: Comprar ingresso → cache atualiza → GET retorna assento ocupado
 
 ---
 
-### Iteração 7: ElasticSearch + Mensageria
-**Entregável**: Busca textual funcionando com sincronização assíncrona
+### Iteração 6: Busca & Mensageria
+**Entregável**: ElasticSearch + MassTransit/RabbitMQ
 
 #### ElasticSearch Setup
-1. **Teste**: `GET /movies/search?q=avatar` → retorna filmes relevantes
-2. **Implementação**: Configurar Elastic via Aspire + criar índice `movies`
-3. **Teste**: Busca com typo "avatr" → retorna "Avatar" (fuzzy matching)
+1. Configurar Elastic + RabbitMQ via Aspire
+2. Criar índice `movies` no Elasticsearch
+3. **Teste**: `GET /movies/search?q=avatar` → retorna filmes relevantes
+4. **Teste**: Busca com typo "avatr" → retorna "Avatar" (fuzzy matching)
 
 #### MassTransit (Sync Assíncrona)
-4. **Teste**: Criar filme → evento `MovieChangedEvent` publicado
-5. **Implementação**: Publicar evento ao criar/atualizar Movie
-6. **Teste**: Consumer indexa filme no Elastic automaticamente
-7. **Implementação**: Criar `MovieChangedConsumer`
+5. **Teste**: Criar filme → evento `MovieChangedEvent` publicado
+6. **Implementação**: Publicar evento ao criar/atualizar Movie
+7. **Teste**: Consumer indexa filme no Elastic automaticamente
+8. **Implementação**: Criar `MovieChangedConsumer`
 
 #### Polly (Resiliência)
-8. **Teste**: Elastic offline → API não quebra (Circuit Breaker)
-9. **Implementação**: Adicionar Polly com retry + circuit breaker
+9. **Teste**: Elastic offline → API não quebra (Circuit Breaker)
+10. **Implementação**: Adicionar Polly com retry + circuit breaker
 
 ---
 
-### Iteração 8: Observabilidade
+### Iteração 7: Observabilidade
 **Entregável**: Logs estruturados + métricas em tempo real
 
 #### Serilog
@@ -238,7 +252,7 @@ Aqui mapeamos cada funcionalidade aos itens obrigatórios do roadmap.
 
 ---
 
-### Iteração 9: Background Jobs
+### Iteração 8: Background Jobs
 **Entregável**: Limpeza automática de reservas expiradas
 
 #### BackgroundService
@@ -248,7 +262,7 @@ Aqui mapeamos cada funcionalidade aos itens obrigatórios do roadmap.
 
 ---
 
-### Iteração 10 (Futuro): Real-Time com SignalR
+### Iteração 9: Real-Time (Futuro)
 **Entregável**: Mapa de assentos atualizado em tempo real
 
 1. **Teste E2E (Playwright)**: Abrir 2 navegadores → comprar assento no 1º → ver atualização no 2º
