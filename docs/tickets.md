@@ -157,7 +157,7 @@ Create basic CI/CD workflow for automated build and tests.
 - [X] Workflow runs on push to `main` and on pull requests
 
 #### Technical Notes
-- Use action `actions/setup-dotnet@v4` with .NET 10
+- Use action `actions/setup-dotnet@v5` with .NET 10
 - Search for .NET workflow examples on GitHub Actions Marketplace
 
 ---
