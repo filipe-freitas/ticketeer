@@ -116,33 +116,38 @@ Aqui mapeamos cada funcionalidade aos itens obrigatórios do roadmap.
 ---
 
 ### Iteração 2: Infrastructure + Persistência
-**Entregável**: Banco de dados funcional com testes reais
+**Entregável**: Banco de dados funcional com testes reais + logging básico
 
 #### .NET Aspire Setup
 1. Criar projeto `Ticketeer.AppHost`
 2. Configurar PostgreSQL container via Aspire
 3. **Validação**: Aspire dashboard acessível em `http://localhost:15888`
 
+#### Serilog (Logging Básico)
+4. Adicionar Serilog ao projeto API
+5. Configurar structured logging para Console
+6. **Validação**: Requests aparecem com logs estruturados no terminal
+
 #### EF Core Setup
-4. Criar `TicketeerDbContext` com DbSet para todas as entidades
-5. Configurar Fluent API (FKs, índices, constraints)
-6. Criar Migration `InitialCreate`
-7. **Validação**: Schema aplicado corretamente no PostgreSQL
+7. Criar `TicketeerDbContext` com DbSet para todas as entidades
+8. Configurar Fluent API (FKs, índices, constraints)
+9. Criar Migration `InitialCreate`
+10. **Validação**: Schema aplicado corretamente no PostgreSQL
 
 #### TestContainers
-8. Adicionar `Testcontainers.PostgreSql` ao projeto Tests
-9. Criar `CustomWebApplicationFactory` (ADR 006)
+11. Adicionar `Testcontainers.PostgreSql` ao projeto Tests
+12. Criar `CustomWebApplicationFactory` (ADR 006)
 
 #### Testes de Integração
-10. **Teste**: Criar `MovieRepositoryTests.cs` (usa TestContainers + Postgres real)
-11. **Implementação**: Implementar `MovieRepository` com EF Core
-12. **Teste**: Salvar Movie no banco → Recuperar → Validar dados
-13. **Validação**: Rodar testes de integração → Postgres sobe/desce automaticamente
+13. **Teste**: Criar `MovieRepositoryTests.cs` (usa TestContainers + Postgres real)
+14. **Implementação**: Implementar `MovieRepository` com EF Core
+15. **Teste**: Salvar Movie no banco → Recuperar → Validar dados
+16. **Validação**: Rodar testes de integração → Postgres sobe/desce automaticamente
 
 ---
 
 ### Iteração 3: API Básica + Autenticação
-**Entregável**: Endpoints funcionais com JWT
+**Entregável**: Endpoints de autenticação funcionais com JWT
 
 #### ASP.NET Core Identity + JWT
 1. **Teste**: Criar `AuthenticationTests.cs` (POST /auth/register → retorna 201)
@@ -159,21 +164,31 @@ Aqui mapeamos cada funcionalidade aos itens obrigatórios do roadmap.
 7. Configurar Swagger para aceitar Bearer Token
 8. **Teste Manual**: Abrir Swagger → Fazer login → Usar token em endpoint protegido
 
-#### CRUD de Movies
-9. **Teste**: Criar `MovieServiceTests.cs` (mock de repository)
-10. **Implementação**: Criar `MovieService` (CRUD usando IMovieRepository)
-11. **Teste**: Validar `CreateMovieRequest` com título vazio → erro de validação
-12. **Implementação**: Adicionar FluentValidation (`CreateMovieRequestValidator`)
-13. **Teste**: `POST /movies` com dados válidos → 201 Created
-14. **Implementação**: Criar `MoviesController` (CRUD administrativo)
+---
+
+### Iteração 4: CRUD de Movies + Validação
+**Entregável**: Gerenciamento de filmes com validação e leitura otimizada
+
+#### Application Layer (Movies)
+1. **Teste**: Criar `MovieServiceTests.cs` (mock de repository)
+2. **Implementação**: Criar `MovieService` (CRUD usando IMovieRepository)
+3. **Teste**: Validar `CreateMovieRequest` com título vazio → erro de validação
+4. **Implementação**: Adicionar FluentValidation (`CreateMovieRequestValidator`)
+
+#### API (Movies Controller)
+5. **Teste**: `POST /movies` com dados válidos → 201 Created
+6. **Implementação**: Criar `MoviesController` (CRUD administrativo)
+7. **Teste**: `GET /movies/{id}` → retorna filme correto
+8. **Teste**: `PUT /movies/{id}` → atualiza filme
+9. **Teste**: `DELETE /movies/{id}` → remove filme
 
 #### Dapper (Read Model)
-15. **Teste**: `GET /movies` retorna lista otimizada (sem tracking do EF)
-16. **Implementação**: Criar `IQueryService` + query Dapper para listagem
+10. **Teste**: `GET /movies` retorna lista otimizada (sem tracking do EF)
+11. **Implementação**: Criar `IQueryService` + query Dapper para listagem
 
 ---
 
-### Iteração 4: Core Business - Venda de Ingressos
+### Iteração 5: Core Business - Venda de Ingressos
 **Entregável**: Compra de ingressos com proteção de concorrência
 
 #### Sessions CRUD
@@ -197,7 +212,7 @@ Aqui mapeamos cada funcionalidade aos itens obrigatórios do roadmap.
 
 ---
 
-### Iteração 5: Cache & Performance
+### Iteração 6: Cache & Performance
 **Entregável**: Redis para endpoints de leitura pesados
 
 #### Redis Setup
@@ -217,7 +232,7 @@ Aqui mapeamos cada funcionalidade aos itens obrigatórios do roadmap.
 
 ---
 
-### Iteração 6: Busca & Mensageria
+### Iteração 7: Busca & Mensageria
 **Entregável**: ElasticSearch + MassTransit/RabbitMQ
 
 #### ElasticSearch Setup
@@ -238,11 +253,11 @@ Aqui mapeamos cada funcionalidade aos itens obrigatórios do roadmap.
 
 ---
 
-### Iteração 7: Observabilidade
-**Entregável**: Logs estruturados + métricas em tempo real
+### Iteração 8: Observabilidade Avançada
+**Entregável**: Logs em Kibana + métricas em Grafana
 
-#### Serilog
-1. **Implementação**: Configurar Serilog + Elasticsearch sink
+#### Serilog → Elasticsearch → Kibana
+1. **Implementação**: Configurar Elasticsearch sink para Serilog
 2. **Teste Manual**: Fazer requisição → ver log estruturado no Kibana
 
 #### OpenTelemetry
@@ -252,7 +267,7 @@ Aqui mapeamos cada funcionalidade aos itens obrigatórios do roadmap.
 
 ---
 
-### Iteração 8: Background Jobs
+### Iteração 9: Background Jobs
 **Entregável**: Limpeza automática de reservas expiradas
 
 #### BackgroundService
@@ -262,7 +277,7 @@ Aqui mapeamos cada funcionalidade aos itens obrigatórios do roadmap.
 
 ---
 
-### Iteração 9: Real-Time (Futuro)
+### Iteração 10: Real-Time (Futuro)
 **Entregável**: Mapa de assentos atualizado em tempo real
 
 1. **Teste E2E (Playwright)**: Abrir 2 navegadores → comprar assento no 1º → ver atualização no 2º

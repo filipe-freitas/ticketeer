@@ -4,7 +4,7 @@
 
 ---
 
-## Iteração 9: Real-Time (Future)
+## Iteração 10: Real-Time (Future)
 > *To be refined*
 
 **Objective**: SignalR for live seat map
@@ -15,7 +15,7 @@
 
 ---
 
-## Iteração 8: Background Jobs
+## Iteração 9: Background Jobs
 > *To be refined*
 
 **Objective**: Scheduled tasks
@@ -25,19 +25,19 @@
 
 ---
 
-## Iteração 7: Observability
+## Iteração 8: Observability (Advanced)
 > *To be refined*
 
-**Objective**: Structured logs + metrics
+**Objective**: Logs in Kibana + metrics in Grafana
 
 **Planned Tickets**:
-- Configure Serilog → Elasticsearch → Kibana
+- Configure Serilog → Elasticsearch → Kibana sink
 - Configure OpenTelemetry → Prometheus → Grafana
 - Create metrics dashboard
 
 ---
 
-## Iteração 6: Search & Messaging
+## Iteração 7: Search & Messaging
 > *To be refined*
 
 **Objective**: ElasticSearch + MassTransit/RabbitMQ
@@ -50,7 +50,7 @@
 
 ---
 
-## Iteração 5: Cache & Performance
+## Iteração 6: Cache & Performance
 > *To be refined*
 
 **Objective**: Redis for heavy read endpoints
@@ -63,7 +63,7 @@
 
 ---
 
-## Iteração 4: Core Business - Ticket Sales
+## Iteração 5: Core Business - Ticket Sales
 > *To be refined*
 
 **Objective**: Ticket purchase with concurrency protection
@@ -77,27 +77,39 @@
 
 ---
 
+## Iteração 4: CRUD de Movies + Validation
+> *To be refined*
+
+**Objective**: Movie management with validation and optimized reads
+
+**Planned Tickets**:
+- Create MovieService + tests
+- Add FluentValidation
+- Create MoviesController (CRUD)
+- Implement Dapper for optimized reads
+
+---
+
 ## Iteração 3: API + Authentication
 > *To be refined*
 
-**Objective**: Functional endpoints with JWT
+**Objective**: Authentication endpoints with JWT
 
 **Planned Tickets**:
 - Configure ASP.NET Core Identity
 - Implement Register/Login with JWT
 - Configure Swagger with Bearer authentication
-- Create Movies CRUD (Controller) + FluentValidation
-- Implement optimized reads with Dapper
 
 ---
 
 ## Iteração 2: Infrastructure + Persistence
 > *To be refined*
 
-**Objective**: EF Core with PostgreSQL via Aspire
+**Objective**: EF Core with PostgreSQL via Aspire + basic logging
 
 **Planned Tickets**:
 - Configure .NET Aspire + PostgreSQL container
+- Add Serilog (basic structured logging)
 - Create DbContext with EF Core
 - Configure Fluent API (FKs, indexes, constraints)
 - Create migrations and validate schema
@@ -107,35 +119,162 @@
 ---
 
 ## Iteração 1: Domain Layer (TDD)
-> *To be refined after Iteration 0 is complete*
 
-**Objective**: Domain entities tested without infrastructure dependencies
+### 🎫 Ticket #010: Create Session and Ticket Entities with Availability Logic
+**Status**: 🔴 To Do
+**Type**: Feature + Test
 
-**Planned Tickets**:
-- Configure test packages (xUnit, NSubstitute, Shouldly, Bogus)
-- Create .editorconfig for code formatting
-- Create Movie entity + tests
-- Create Cinema entity + tests
-- Create Hall entity + tests (seat calculation)
-- Create Seat Value Object + equality tests
-- Create Session and Ticket entities + availability logic
+#### Description
+Implement Session and Ticket entities with business rule to check seat availability.
+
+#### Acceptance Criteria
+- [ ] Test `SessionTests.cs` validates `CanPurchaseSeat()` with occupied seat returns false
+- [ ] Test validates `CanPurchaseSeat()` with available seat returns true
+- [ ] Entity `Session` created in Domain
+- [ ] Entity `Ticket` created in Domain
+- [ ] Method `CanPurchaseSeat(Seat)` implemented
+- [ ] All tests pass
+
+#### Technical Notes
+- Business logic must be in Domain, not Application
+- Consult code-guidelines.md for naming conventions
+
+---
+
+### 🎫 Ticket #009: Create Seat Value Object
+**Status**: 🔴 To Do
+**Type**: Feature + Test
+
+#### Description
+Implement the Seat Value Object with equality tests.
+
+#### Acceptance Criteria
+- [ ] Test `SeatValueObjectTests.cs` created
+- [ ] Test validates equality of two seats with same Row and Number
+- [ ] Test validates inequality of different seats
+- [ ] Value Object `Seat` implemented in Domain
+- [ ] All tests pass
+
+#### Technical Notes
+- Value Objects must override `Equals()` and `GetHashCode()`
+- Research Value Object pattern in DDD
+
+---
+
+### 🎫 Ticket #008: Create Hall Entity with Tests
+**Status**: 🔴 To Do
+**Type**: Feature + Test
+
+#### Description
+Implement the Hall entity with total seats calculation.
+
+#### Acceptance Criteria
+- [ ] Test `HallTests.cs` created
+- [ ] Test validates `TotalSeats` calculation (RowCount * SeatsPerRow)
+- [ ] Entity `Hall` created in Domain with correct properties
+- [ ] All tests pass
+
+#### Technical Notes
+- Follow naming conventions from code-guidelines.md
+- Properties: Id, CinemaId, Name, RowCount, SeatsPerRow
+- TotalSeats should be calculated property
+
+---
+
+### 🎫 Ticket #007: Create Cinema Entity with Tests
+**Status**: 🔴 To Do
+**Type**: Feature + Test
+
+#### Description
+Implement the Cinema entity following TDD.
+
+#### Acceptance Criteria
+- [ ] Test `CinemaTests.cs` created in Tests project
+- [ ] Test validates Cinema creation with valid data
+- [ ] Entity `Cinema` created in Domain project
+- [ ] Properties: Id, Name, Address
+- [ ] All tests pass
+
+#### Technical Notes
+- Follow AAA pattern (Arrange-Act-Assert) in tests
+- Use Shouldly for assertions
+
+---
+
+### 🎫 Ticket #006: Create Movie Entity with Tests
+**Status**: 🔴 To Do
+**Type**: Feature + Test
+
+#### Description
+Implement the first domain entity (Movie) following TDD.
+
+#### Acceptance Criteria
+- [ ] Test `MovieTests.cs` created in Tests project
+- [ ] Test validates Movie creation with valid data
+- [ ] Entity `Movie` created in Domain project
+- [ ] Properties: Id, Title, Description, Duration, ReleaseDate, Genre
+- [ ] All tests pass
+
+#### Technical Notes
+- Follow AAA pattern (Arrange-Act-Assert) in tests
+- Use Shouldly for assertions (consult code-guidelines.md)
+
+---
+
+### 🎫 Ticket #005: Create .editorconfig
+**Status**: 🔴 To Do
+**Type**: Setup
+
+#### Description
+Create .editorconfig file for code formatting standardization across the project.
+
+#### Acceptance Criteria
+- [ ] File `.editorconfig` created at solution root
+- [ ] C# formatting rules defined (indentation, braces, etc.)
+- [ ] Naming conventions configured
+- [ ] IDE respects the configuration
+
+#### Technical Notes
+- Use official .NET/C# EditorConfig conventions
+- Consult code-guidelines.md for project standards
+
+---
+
+### 🎫 Ticket #004: Configure Unit Testing Packages
+**Status**: 🟢 Done
+**Type**: Setup
+
+#### Description
+Add testing packages to Ticketeer.Tests project and validate that the test pipeline works.
+
+#### Acceptance Criteria
+- [X] Package `xUnit` added (already exists, validate version)
+- [X] Package `NSubstitute` added
+- [X] Package `Shouldly` added
+- [X] Package `Bogus` added
+- [X] Command `dotnet test` executes without errors
+- [X] CI pipeline runs tests automatically
+
+#### Technical Notes
+- Check latest package versions on NuGet
+- Review ADR 005 to understand NSubstitute choice
 
 ---
 
 ## Iteração 0: Fundação & DevOps
 
 ### 🎫 Ticket #003: Validate CI Pipeline + Branch Protection
-**Status**: 🔴 To Do
+**Status**: 🟢 Done
 **Type**: Test / Setup
 
 #### Description
 Push code to GitHub and validate that the CI pipeline executes successfully. Configure branch protection rules.
 
 #### Acceptance Criteria
-- [ ] Push performed to `main` branch
-- [ ] GitHub Actions workflow executes
-- [ ] Build passes (green)
-- [ ] Branch `main` protected (require PR + status check passing)
+- [X] Push performed to `main` branch
+- [X] GitHub Actions workflow executes
+- [X] Build passes (green)
+- [X] Branch `main` protected (require PR + status check passing)
 
 #### Technical Notes
 - Check GitHub Actions logs in case of failure
