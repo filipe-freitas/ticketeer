@@ -237,7 +237,7 @@ Implement the Cinema entity following TDD.
 
 ### 🎫 Ticket #006: Create Movie Entity with Tests
 
-**Status**: 🔴 To Do
+**Status**: 🟢 Done
 **Type**: Feature + Test
 
 #### Description
@@ -246,11 +246,11 @@ Implement the first domain entity (Movie) following TDD.
 
 #### Acceptance Criteria
 
-- [ ] Test `MovieTests.cs` created in Tests project
-- [ ] Test validates Movie creation with valid data
-- [ ] Entity `Movie` created in Domain project
-- [ ] Properties: Id, Title, Description, Duration, ReleaseDate, Genre
-- [ ] All tests pass
+- [x] Test `MovieTests.cs` created in Tests project
+- [x] Test validates Movie creation with valid data
+- [x] Entity `Movie` created in Domain project
+- [x] Properties: Id, Title, Description, Duration, ReleaseDate, Genre
+- [x] All tests pass
 
 #### Technical Notes
 
