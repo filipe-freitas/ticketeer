@@ -222,17 +222,17 @@ Implement the first domain entity (Movie) following TDD.
 ---
 
 ### 🎫 Ticket #005: Create .editorconfig
-**Status**: 🔴 To Do
+**Status**: 🟢 Done
 **Type**: Setup
 
 #### Description
 Create .editorconfig file for code formatting standardization across the project.
 
 #### Acceptance Criteria
-- [ ] File `.editorconfig` created at solution root
-- [ ] C# formatting rules defined (indentation, braces, etc.)
-- [ ] Naming conventions configured
-- [ ] IDE respects the configuration
+- [X] File `.editorconfig` created at solution root
+- [X] C# formatting rules defined (indentation, braces, etc.)
+- [X] Naming conventions configured
+- [X] IDE respects the configuration
 
 #### Technical Notes
 - Use official .NET/C# EditorConfig conventions

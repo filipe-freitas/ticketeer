@@ -33,7 +33,7 @@
 - **Properties**: `PascalCase` (e.g. `Title`, `ReleaseDate`)
 - **Private Fields**: `_camelCase` (e.g. `_dbContext`, `_logger`)
 - **Local Variables**: `camelCase` (e.g. `movieId`, `seatNumber`)
-- **Constants**: `UPPER_SNAKE_CASE` (e.g. `MAX_SEATS_PER_ROW`, `DEFAULT_TIMEOUT`)
+- **Constants**: `PascalCase` (fields) / `camelCase` (locals) (e.g. `MaxSeatsPerRow`, `defaultTimeout`)
 
 ### File Naming
 - **Classes**: Match class name (e.g. `MovieService.cs`)
